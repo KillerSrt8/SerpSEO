@@ -1,8 +1,7 @@
 services:
   app:
-    image: towfiqi/serpbear:latest
-    # Build from source instead of pulling the image:
-    # build: .
+    build: .
+    image: serpbear:latest
     restart: unless-stopped
     ports:
       - "${PORT:-3000}:3000"
@@ -17,7 +16,7 @@ services:
       - SEARCH_CONSOLE_CLIENT_EMAIL=${SEARCH_CONSOLE_CLIENT_EMAIL:-}
       - SEARCH_CONSOLE_PRIVATE_KEY=${SEARCH_CONSOLE_PRIVATE_KEY:-}
     volumes:
-      - serpbear_data:/app/data
+      - serpbear_appdata:/app/data
     healthcheck:
       test: ["CMD-SHELL", "wget -qO- http://localhost:3000 || exit 1"]
       interval: 30s
@@ -26,4 +25,5 @@ services:
       start_period: 15s
 
 volumes:
-  serpbear_data:
+  serpbear_appdata:
+

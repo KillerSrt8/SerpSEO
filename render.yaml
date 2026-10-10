@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: serpbear
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: starter # Render Persistent Disks require a paid instance plan (e.g. Starter ~$7/mo)
+    healthCheckPath: /
+    envVars:
+      - key: USER_NAME
+        sync: false
+      - key: PASSWORD
+        sync: false
+      - key: SECRET
+        generateValue: true
+      - key: APIKEY
+        generateValue: true
+      - key: SESSION_DURATION
+        value: "24"
+      - key: NEXT_PUBLIC_APP_URL
+        sync: false
+    disk:
+      name: serpbear_appdata
+      mountPath: /app/data
+      sizeGB: 1

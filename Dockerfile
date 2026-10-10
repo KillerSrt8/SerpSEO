@@ -40,7 +40,8 @@ COPY --from=builder --chown=nextjs:nodejs /app/entrypoint.sh ./entrypoint.sh
 #   resolution that Next.js 12 file tracing (nft) does not follow
 # - sequelize-cli: used by entrypoint.sh for DB migrations
 # - concurrently: process manager for server.js + cron.js
-RUN chmod +x /app/entrypoint.sh && \
+RUN sed -i 's/\r$//' /app/entrypoint.sh && \
+    chmod +x /app/entrypoint.sh && \
     rm -f package.json && npm init -y && \
     npm install --no-package-lock \
       croner@9.0.0 \
@@ -49,7 +50,8 @@ RUN chmod +x /app/entrypoint.sh && \
       @googleapis/searchconsole@1.0.5 \
       sequelize-cli@6.6.5 \
       concurrently@7.6.0 \
-      @isaacs/ttlcache@1.4.1 && \
+      @isaacs/ttlcache@1.4.1 \
+      @babel/runtime && \
     npm cache clean --force && \
     rm -rf /tmp/* /root/.npm
 
